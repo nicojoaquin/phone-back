@@ -22,7 +22,7 @@ const createProduct = async (req, res) => {
 const readProducts = async (req, res) => {
   
   try {
-    const products = await Product.find();
+    const products = await Product.find().sort({createdAt: -1});
 
     res.json({
       ok: true,
@@ -56,16 +56,37 @@ const readProductById = async (req, res) => {
 
 };
 
+const readProductsByCat = async (req, res) => {
+
+  let marca = req.params.cat;
+  marca = marca[0].toUpperCase() + marca.substring(1);
+  
+  try {
+    const products = await Product.find({marca}).sort({createdAt: -1});
+
+    res.json({
+      ok: true,
+      products
+    });
+  } catch (err) {
+    res.status(500).json({
+      ok: false,
+      msg: err
+    });
+  };
+
+};
+
 const updateProduct = async (req, res) => {
   const {id} = req.params;
   const updatedProduct = req.body;
   
   try {
-    const product = await Product.findByIdAndUpdate(id, updatedProduct);
+    const product = await Product.findByIdAndUpdate(id, updatedProduct, {new: true});
     
     res.json({
       ok: true,
-      product: updatedProduct
+      product
     });
   } catch (err) {
     res.status(500).json({
@@ -97,6 +118,7 @@ module.exports = {
   createProduct,
   readProducts,
   readProductById,
+  readProductsByCat,
   updateProduct,
   deleteProduct
 };

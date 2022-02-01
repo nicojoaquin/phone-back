@@ -3,6 +3,7 @@ const {
   createProduct,
   readProducts,
   readProductById,
+  readProductsByCat,
   updateProduct,
   deleteProduct
 } = require('../controllers/products');
@@ -12,11 +13,14 @@ const router = Router();
 //POST
 router.post('/', createProduct);
 
-//Get
+//GET
 router.get('/', readProducts);
 
-//Get
-router.get('/:id', readProductById);
+//GET
+router.get('/product/:id', readProductById);
+
+//GET
+router.get('/:cat', readProductsByCat);
 
 //PUT
 router.put('/:id', updateProduct);
