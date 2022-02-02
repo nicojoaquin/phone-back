@@ -58,8 +58,7 @@ const readProductById = async (req, res) => {
 
 const readProductsByCat = async (req, res) => {
 
-  let marca = req.params.cat;
-  marca = marca[0].toUpperCase() + marca.substring(1);
+  let marca = req.params.cat.toLowerCase();
   
   try {
     const products = await Product.find({marca}).sort({createdAt: -1});
